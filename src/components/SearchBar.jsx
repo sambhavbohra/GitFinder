@@ -1,20 +1,16 @@
 import React from 'react'
 import { useState } from "react";
+import { useGitHub } from '../context/GithubContext';
 
-function SearchBar({ onSearch }) {
+const SearchBar = () => {
     const [username, setUsername] = useState("");
-    const [error, setError] = useState("");
+    const { fetchGitHubData,error, loading }= useGitHub();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(!username.trim()){
-            setError("Username is required");
-            return;
+        if(username.trim()){
+            fetchGitHubData(username);
         }
-
-        setError("");
-        onSearch(username.trim());
-        setUsername("");
     };
 
     return (
@@ -36,7 +32,7 @@ function SearchBar({ onSearch }) {
                     type="submit"
                     className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white py-2 px-4 rounded-lg hover:from-orange-500 hover:to-orange-700 transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
                 >
-                    Search
+                    {loading ? "Searching..." : "Search"}
                 </button>
                 {error && (
                     <p className="text-red-500 text-sm mt-2 animate-pulse">
