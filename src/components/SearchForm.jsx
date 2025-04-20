@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from "react";
-import { useGitHub } from '../context/GithubContext';
+import { useGitHub } from '../context/GitHubContext';
 
 const SearchBar = () => {
     const [username, setUsername] = useState("");

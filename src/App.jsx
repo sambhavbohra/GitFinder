@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
-import SearchBar from './components/SearchBar'
+import SearchBar from './components/SearchForm'
 import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import ProfilePage from './pages/ProfilePage'
-import ReposPage from './pages/ReposPage'
-import FollowersPage from './pages/FollowersPage'
+import Footer from './components/Loader'
+import ProfilePage from './pages/Profile'
+import ReposPage from './pages/Repositories'
+import FollowersPage from './pages/Followers'
 
 function App() {
   return (
