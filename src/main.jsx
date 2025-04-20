@@ -7,10 +7,10 @@ import { GitHubProvider } from '../src/context/GitHubContext';
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
-    <GitHubProvider>
+    // <GitHubProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </GitHubProvider>
+    // </GitHubProvider>
   // {/* </StrictMode> */}
 );
