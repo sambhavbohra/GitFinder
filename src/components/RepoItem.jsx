@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, GitFork } from 'lucide-react';
+import { Star, GitFork, ExternalLink } from 'lucide-react';
 
 const RepoItem = ({ repo }) => {
   const formattedDate = new Date(repo.updated_at).toLocaleDateString('en-US', {
@@ -31,18 +31,19 @@ const RepoItem = ({ repo }) => {
   };
   
   return (
-    <div className="card p-4 hover:translate-y-[-2px]">
-      <div className="flex justify-between items-start">
-        <div>
+    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 p-6 transform hover:-translate-y-1">
+      <div className="flex justify-between items-start gap-4">
+        <div className="flex-1 min-w-0">
           <a 
             href={repo.html_url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-lg font-semibold text-orange-600 hover:underline"
+            className="text-lg font-semibold text-orange-600 hover:text-orange-700 transition-colors duration-200 inline-flex items-center gap-2 group"
           >
             {repo.name}
+            <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
           </a>
-          <p className="text-gray-600 text-sm mt-1 line-clamp-2">
+          <p className="text-gray-600 text-sm mt-2 line-clamp-2">
             {repo.description || 'No description provided'}
           </p>
         </div>
@@ -51,32 +52,32 @@ const RepoItem = ({ repo }) => {
           href={repo.html_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-secondary text-xs px-3 py-1"
+          className="inline-flex items-center px-4 py-2 rounded-full bg-orange-50 text-orange-600 text-sm font-medium hover:bg-orange-100 transition-colors duration-200"
         >
-          View
+          View Repo
         </a>
       </div>
       
-      <div className="flex flex-wrap items-center mt-3 text-sm text-gray-600 gap-3">
+      <div className="flex flex-wrap items-center mt-4 gap-4 text-sm">
         {repo.language && (
-          <div className="flex items-center">
-            <span className={`w-3 h-3 rounded-full mr-1 ${getLanguageColor(repo.language)}`}></span>
+          <div className="flex items-center text-gray-600">
+            <span className={`w-3 h-3 rounded-full mr-2 ${getLanguageColor(repo.language)}`}></span>
             <span>{repo.language}</span>
           </div>
         )}
         
-        <div className="flex items-center">
-          <Star className="h-4 w-4 mr-1 text-yellow-500" />
-          <span>{repo.stargazers_count}</span>
+        <div className="flex items-center text-gray-600">
+          <Star className="h-4 w-4 mr-1.5 text-yellow-400" />
+          <span>{repo.stargazers_count.toLocaleString()}</span>
         </div>
         
-        <div className="flex items-center">
-          <GitFork className="h-4 w-4 mr-1 text-gray-500" />
-          <span>{repo.forks_count}</span>
+        <div className="flex items-center text-gray-600">
+          <GitFork className="h-4 w-4 mr-1.5 text-gray-400" />
+          <span>{repo.forks_count.toLocaleString()}</span>
         </div>
         
-        <div className="text-gray-500 ml-auto">
-          Updated on {formattedDate}
+        <div className="ml-auto text-sm text-gray-500">
+          Updated {formattedDate}
         </div>
       </div>
     </div>
