@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { ChevronLeft, Search } from 'lucide-react'
 import RepoItem from '../components/RepoItem'
 import Loader from '../components/Loader'
-import { useGitHub } from '../context/GitHubContext'
+import { useGitHub } from '../context/githubContext'
 
 const Repositories = () => {
   const { username } = useParams()

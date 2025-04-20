@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import FollowerItem from '../components/FollowerItem';
 import Loader from '../components/Loader';
-import { useGitHub } from '../context/GitHubContext';
+import { useGitHub } from '../context/githubContext';
 
 const Followers = () => {
   const { username } = useParams();

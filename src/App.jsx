@@ -6,11 +6,10 @@ import Profile from './pages/Profile';
 import Repositories from './pages/Repositories';
 import Followers from './pages/Followers';
 import NotFound from './pages/NotFound';
-import { GitHubProvider } from './context/GitHubContext';
+// import { GitHubProvider } from './context/GitHubContext';
 
 function App() {
   return (
-    <GitHubProvider>
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-50">
       <Navbar />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -35,7 +34,6 @@ function App() {
         </div>
       </footer>
     </div>
-    </GitHubProvider>
   );
 }
 
