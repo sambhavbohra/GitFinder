@@ -1,17 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { GithubProvider } from './context/GithubContext';
+import App from './App';
+import { GitHubProvider } from './context/GitHubContext';
+import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <GithubProvider>
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <GitHubProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </GithubProvider>
-  </React.StrictMode>
-  
-)
+    </GitHubProvider>
+  </StrictMode>
+);

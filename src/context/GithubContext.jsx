@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
 const GitHubContext = createContext();
 
@@ -19,23 +19,23 @@ export const GitHubProvider = ({ children }) => {
 
   const BASE_URL = 'https://api.github.com';
 
-  const searchUser = async (username) => {
+  const searchUser = useCallback(async (username) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch(`${BASE_URL}/users/${username}`);
-      
+
       if (!response.ok) {
         if (response.status === 404) {
           setError('User not found');
           setUser(null);
           return null;
         }
-        
+
         throw new Error(`Error: ${response.status}`);
       }
-      
+
       const userData = await response.json();
       setUser(userData);
       return userData;
@@ -46,19 +46,19 @@ export const GitHubProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const getUserRepos = async (username) => {
+  const getUserRepos = useCallback(async (username) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch(`${BASE_URL}/users/${username}/repos?sort=updated&per_page=10`);
-      
+
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
-      
+
       const reposData = await response.json();
       setRepositories(reposData);
       return reposData;
@@ -69,19 +69,19 @@ export const GitHubProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const getUserFollowers = async (username) => {
+  const getUserFollowers = useCallback(async (username) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch(`${BASE_URL}/users/${username}/followers?per_page=10`);
-      
+
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
-      
+
       const followersData = await response.json();
       setFollowers(followersData);
       return followersData;
@@ -92,14 +92,14 @@ export const GitHubProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const clearUser = () => {
+  const clearUser = useCallback(() => {
     setUser(null);
     setRepositories([]);
     setFollowers([]);
     setError(null);
-  };
+  }, []);
 
   return (
     <GitHubContext.Provider

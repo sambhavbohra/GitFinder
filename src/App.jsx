@@ -1,37 +1,32 @@
-import { Routes, Route } from 'react-router-dom'
-import SearchBar from './components/SearchForm'
-import Navbar from './components/Navbar'
-import Footer from './components/Loader'
-import ProfilePage from './pages/Profile'
-import ReposPage from './pages/Repositories'
-import FollowersPage from './pages/Followers'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import Repositories from './pages/Repositories';
+import Followers from './pages/Followers';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-orange-50 to-white">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      
-      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="max-w-3xl mx-auto space-y-8">
-
-          <div className="animate-fade-in">
-            <SearchBar />
-          </div>
-
-          
-          <div className="bg-white rounded-xl shadow-lg p-6 animate-fade-in">
-            <Routes>
-              <Route path="/" element={<ProfilePage />} />
-              <Route path="/repos" element={<ReposPage />} />
-              <Route path="/followers" element={<FollowersPage />} />
-            </Routes>
-          </div>
-        </div>
+      <main className="container mx-auto px-4 py-8 flex-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/profile/:username/repos" element={<Repositories />} />
+          <Route path="/profile/:username/followers" element={<Followers />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </main>
-
-      <Footer />
+      <footer className="bg-white py-4 border-t border-gray-200">
+        <div className="container mx-auto px-4 text-center text-gray-500">
+          <p>&copy; {new Date().getFullYear()} GitFinder - Made with React & Tailwind CSS</p>
+        </div>
+      </footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
