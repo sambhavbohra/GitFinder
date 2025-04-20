@@ -50,11 +50,11 @@ GitFinder is a modern web application built with React.js and Tailwind CSS that 
 *Search interface with featured sections*
 
 ### Profile View
-![Profile Page](./screenshots/profile.png)
+![Profile Page](./screenshots/Profile.png)
 *Detailed user profile with stats*
 
 ### Repositories
-![Repositories Page](./screenshots/repos.png)
+![Repositories Page](./screenshots/Repos.png)
 *Repository listing with filters*
 
 ### Repositories
