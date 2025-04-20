@@ -1,47 +1,65 @@
-import React from 'react'
-import { useState } from "react";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search } from 'lucide-react';
 import { useGitHub } from '../context/GitHubContext';
 
-const SearchBar = () => {
-    const [username, setUsername] = useState("");
-    const { fetchGitHubData,error, loading }= useGitHub();
+const SearchForm = () => {
+  const [username, setUsername] = useState('');
+  const [inputError, setInputError] = useState('');
+  const { searchUser, loading, error } = useGitHub();
+  const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if(username.trim()){
-            fetchGitHubData(username);
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!username.trim()) {
+      setInputError('Please enter a GitHub username');
+      return;
+    }
+    
+    setInputError('');
+    const user = await searchUser(username.trim());
+    
+    if (user) {
+      navigate(`/profile/${user.login}`);
+    }
+  };
 
-    return (
-        <div className="animate-fade-in-down w-full max-w-md mx-auto p-6">
-            <form 
-                onSubmit={handleSubmit}
-                className="space-y-4 bg-white rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:scale-105"
-            >
-                <div className="relative">
-                    <input 
-                        type="text"
-                        placeholder="Enter Github username..."
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
-                    />
-                </div>
-                <button 
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white py-2 px-4 rounded-lg hover:from-orange-500 hover:to-orange-700 transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
-                >
-                    {loading ? "Searching..." : "Search"}
-                </button>
-                {error && (
-                    <p className="text-red-500 text-sm mt-2 animate-pulse">
-                        {error}
-                    </p>
-                )}
-            </form>
+  return (
+    <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto">
+      <div className="flex flex-col space-y-4">
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-5 w-5 text-gray-400" />
+          </div>
+          <input
+            type="text"
+            className="input pl-10 w-full"
+            placeholder="Enter GitHub username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            disabled={loading}
+          />
         </div>
-    );
-}
+        
+        {inputError && (
+          <p className="text-red-500 text-sm">{inputError}</p>
+        )}
+        
+        {error && (
+          <p className="text-red-500 text-sm">{error}</p>
+        )}
+        
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={loading}
+        >
+          {loading ? 'Searching...' : 'Search'}
+        </button>
+      </div>
+    </form>
+  );
+};
 
-export default SearchBar
+export default SearchForm;

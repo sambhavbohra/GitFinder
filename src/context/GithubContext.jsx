@@ -1,45 +1,121 @@
-import React from 'react'
-import { createContext } from 'react'
-import { useContext } from 'react'
-import { useState } from 'react'
-import axios from 'axios'
+import React, { createContext, useContext, useState } from 'react';
 
-const GithubContext = createContext()
+const GitHubContext = createContext();
 
-export const GithubProvider = ({children}) => {
-    const[user, setUser] = useState(null)
-    const [ repos, setRepos ] = useState([])
-    const [ followers, setFollowers ] = useState([])
-    const [ loading, setLoading ] = useState(false)
-    const [ error, setError ] = useState("")
+export const useGitHub = () => {
+  const context = useContext(GitHubContext);
+  if (context === undefined) {
+    throw new Error('useGitHub must be used within a GitHubProvider');
+  }
+  return context;
+};
 
-    const fetchGitHubData = async (username) => {
-        setLoading(true)
-        setError("")
-        try {
-            const user = await axios.get(`https://api.github.com/users/${username}`)
-            const repos = await axios.get(`https://api.github.com/users/${username}/repos?per_page=100`)
-            const followers = await axios.get(`https://api.github.com/users/${username}/followers`)
-            
-            setUser(user.data)
-            setRepos(repos.data)
-            setFollowers(followers.data)
-        } catch (error) {
-            setError("User not found! Recheck the username.")
-            setUser(null)
-            setRepos([])
-            setFollowers([])
-        }finally{
-            setLoading(false)
+export const GitHubProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [repositories, setRepositories] = useState([]);
+  const [followers, setFollowers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const BASE_URL = 'https://api.github.com';
+
+  const searchUser = async (username) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch(`${BASE_URL}/users/${username}`);
+      
+      if (!response.ok) {
+        if (response.status === 404) {
+          setError('User not found');
+          setUser(null);
+          return null;
         }
+        
+        throw new Error(`Error: ${response.status}`);
+      }
+      
+      const userData = await response.json();
+      setUser(userData);
+      return userData;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      setUser(null);
+      return null;
+    } finally {
+      setLoading(false);
     }
+  };
 
+  const getUserRepos = async (username) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch(`${BASE_URL}/users/${username}/repos?sort=updated&per_page=10`);
+      
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      
+      const reposData = await response.json();
+      setRepositories(reposData);
+      return reposData;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      setRepositories([]);
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getUserFollowers = async (username) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch(`${BASE_URL}/users/${username}/followers?per_page=10`);
+      
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      
+      const followersData = await response.json();
+      setFollowers(followersData);
+      return followersData;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      setFollowers([]);
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const clearUser = () => {
+    setUser(null);
+    setRepositories([]);
+    setFollowers([]);
+    setError(null);
+  };
 
   return (
-    <GithubContext.Provider value={{user, repos, followers, loading, error, fetchGitHubData}}>
-        {children}
-    </GithubContext.Provider>
-  )
-}
-
-export const useGitHub = () => useContext(GithubContext)
+    <GitHubContext.Provider
+      value={{
+        user,
+        repositories,
+        followers,
+        loading,
+        error,
+        searchUser,
+        getUserRepos,
+        getUserFollowers,
+        clearUser,
+      }}
+    >
+      {children}
+    </GitHubContext.Provider>
+  );
+};
