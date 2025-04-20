@@ -6,11 +6,11 @@ import { GitHubProvider } from "./context/GitHubContext";
 import './index.css';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <GitHubProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </GitHubProvider>
-  </StrictMode>
+  // {/* </StrictMode> */}
 );
