@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Github, Menu, X } from 'lucide-react';
-import { useGitHub } from '../context/githubContext';
+import { useGitHub } from '../GithubContext';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

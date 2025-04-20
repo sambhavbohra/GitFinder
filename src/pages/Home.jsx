@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Github, User, BookOpen, Users } from 'lucide-react'
 import SearchForm from '../components/SearchForm'
-import { useGitHub } from '../context/githubContext'
+import { useGitHub } from '../GithubContext'
 
 const Home = () => {
   const { clearUser } = useGitHub()

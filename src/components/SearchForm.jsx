@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
-import { useGitHub } from '../context/githubContext'
+import { useGitHub } from '../GithubContext'
 
 const SearchForm = () => {
   const [username, setUsername] = useState('')

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGitHub } from '../context/githubContext';
+import { useGitHub } from '../GithubContext';
 
 const FollowerItem = ({ follower }) => {
   const navigate = useNavigate();

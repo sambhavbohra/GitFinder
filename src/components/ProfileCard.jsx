@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Link as LinkIcon, Building, Users, Bookmark } from 'lucide-react';
-import { useGitHub } from '../context/githubContext';
+import { useGitHub } from '../GithubContext';
 
 const ProfileCard = () => {
   const { user } = useGitHub();

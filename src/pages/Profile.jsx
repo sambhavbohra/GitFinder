@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import ProfileCard from '../components/ProfileCard'
 import Loader from '../components/Loader'
-import { useGitHub } from '../context/githubContext'
+import { useGitHub } from '../GithubContext'
 
 const Profile = () => {
   const { username } = useParams()
